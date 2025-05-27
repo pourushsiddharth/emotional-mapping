@@ -1,4 +1,4 @@
-# Emotional Journey Visualizer AI
+# Emotional Mapping System using AI
 
 This Flask web application uses Google's Gemini AI (specifically the "gemma-3-27b-it" model by default) to analyze user-described situations and generate an emotional map. This map includes core emotions, emotional transitions, trigger analysis, psychological interpretations, healing suggestions, an empathetic message, and a visual flowchart of emotional stages rendered using Graphviz.
 
