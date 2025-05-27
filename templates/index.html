@@ -1,0 +1,945 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Emotional Mapping AI ☀️</title>
+    <!-- Google tag (gtag.js) -->
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=G-JCNQK1G72J"
+    ></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+
+      gtag("config", "G-JCNQK1G72J");
+    </script>
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"
+    />
+    <style>
+      :root {
+        --primary-accent-color: #00897b;
+        --primary-accent-light: #26a69a;
+        --primary-accent-dark: #00695c;
+        --text-color-dark: #212121;
+        --text-color-medium: #757575;
+        --border-color-light: #e0e0e0;
+        --border-color-medium: #bdbdbd;
+        --background-color-light: #ffffff;
+        --background-color-offwhite: #f7f9fc;
+        --card-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16),
+          0 2px 10px 0 rgba(0, 0, 0, 0.12);
+        --error-color: #d32f2f;
+      }
+
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
+          "Segoe UI Symbol";
+        background-color: var(--background-color-offwhite);
+        color: var(--text-color-dark);
+        padding-top: 20px;
+        padding-bottom: 20px;
+        margin: 0; /* Add this to remove default body margin */
+      }
+
+      main {
+        flex: 1 0 auto;
+        padding-bottom: 80px;
+      }
+
+      .app-title {
+        font-size: 2.8rem;
+        font-weight: 300;
+        color: var(--primary-accent-dark);
+        text-align: center;
+        margin-bottom: 30px;
+      }
+
+      .section-card {
+        margin-top: 20px;
+        border-radius: 10px;
+        background-color: var(--background-color-light);
+        border: 1px solid var(--border-color-medium);
+        box-shadow: var(--card-shadow);
+      }
+
+      .card .card-content {
+        padding: 24px;
+      }
+
+      .map-card .card-content {
+        padding: 15px;
+      }
+
+      .card .card-title {
+        font-weight: 500;
+        font-size: 1.5rem;
+        color: var(--text-color-dark);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        border-bottom: 1px solid var(--border-color-light);
+        padding-bottom: 16px;
+        margin-bottom: 16px;
+        padding-left: 0;
+        padding-right: 0;
+      }
+
+      .map-card .card-title {
+        padding: 0 0 10px 0;
+        margin-bottom: 10px;
+      }
+
+      .card .card-title .material-icons:first-child {
+        margin-right: 12px;
+        color: var(--primary-accent-color);
+      }
+
+      .btn-large {
+        margin-top: 20px;
+        background-color: var(--primary-accent-color);
+        color: white;
+        border-radius: 6px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14),
+          0 3px 1px -2px rgba(0, 0, 0, 0.12), 0 1px 5px 0 rgba(0, 0, 0, 0.2);
+      }
+
+      .btn-large:hover {
+        background-color: var(--primary-accent-dark);
+        box-shadow: 0 3px 3px 0 rgba(0, 0, 0, 0.14),
+          0 1px 7px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -1px rgba(0, 0, 0, 0.2);
+      }
+
+      .input-field input[type="text"]:focus + label,
+      .input-field input[type="number"]:focus + label,
+      .input-field textarea.materialize-textarea:focus + label {
+        color: var(--primary-accent-color) !important;
+      }
+
+      .input-field input[type="text"]:focus,
+      .input-field input[type="number"]:focus,
+      .input-field textarea.materialize-textarea:focus {
+        border-bottom: 1px solid var(--primary-accent-color) !important;
+        box-shadow: 0 1px 0 0 var(--primary-accent-color) !important;
+      }
+
+      .input-field textarea.materialize-textarea.char-limit-exceeded {
+        border-bottom: 1px solid var(--error-color) !important;
+        box-shadow: 0 1px 0 0 var(--error-color) !important;
+      }
+
+      .input-field
+        textarea.materialize-textarea.char-limit-exceeded
+        ~ label.active {
+        color: var(--error-color) !important;
+      }
+
+      .input-field .character-counter.limit-exceeded-text {
+        color: var(--error-color) !important;
+      }
+
+      .error-panel {
+        background-color: var(--error-color) !important;
+        color: white;
+        border-radius: 6px;
+        box-shadow: var(--card-shadow);
+      }
+
+      .pre-raw-output {
+        background-color: #f5f5f5;
+        color: #333;
+        padding: 16px;
+        border-radius: 4px;
+        overflow-x: auto;
+        font-family: "Courier New", Courier, monospace;
+        font-size: 0.85em;
+        border: 1px solid var(--border-color-light);
+      }
+
+      .svg-container {
+        width: 100%;
+        overflow: auto !important;
+        text-align: left;
+        background-color: var(--background-color-light);
+        border-radius: 4px;
+      }
+
+      .svg-container img {
+        display: block;
+        width: auto;
+        max-width: none;
+        height: auto;
+        max-height: none;
+      }
+
+      #flowchart-image:fullscreen,
+      #flowchart-image:-moz-full-screen,
+      #flowchart-image:-webkit-full-screen,
+      #flowchart-image:-ms-fullscreen {
+        background-color: white;
+        object-fit: contain;
+        width: 100vw !important;
+        height: 100vh !important;
+        margin: 0;
+        padding: 0;
+        box-shadow: none;
+        border: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 9999;
+      }
+
+      .collection {
+        border: 1px solid var(--border-color-light);
+        border-radius: 6px;
+      }
+
+      .collection .collection-item {
+        border-bottom: 1px solid var(--border-color-light) !important;
+        padding: 12px 15px;
+        background-color: transparent;
+      }
+
+      .collection .collection-item:last-child {
+        border-bottom: none !important;
+      }
+
+      .final-message-panel {
+        background-color: #e3f2fd !important;
+        color: #1565c0;
+        border-left: 5px solid #1e88e5;
+        padding: 15px 20px !important;
+        border-radius: 6px;
+        box-shadow: var(--card-shadow);
+      }
+
+      .final-message-panel .material-icons {
+        color: #1e88e5;
+      }
+
+      .input-field label {
+        color: var(--text-color-medium);
+      }
+
+      .input-field label.active {
+        color: var(--primary-accent-color) !important;
+      }
+
+      .desktop-notice-panel {
+        background-color: #fff3e0;
+        color: #ef6c00;
+        border-left: 5px solid #ff9800;
+        margin-top: 15px;
+        margin-bottom: 25px;
+        padding: 15px 20px !important;
+        border-radius: 6px;
+        box-shadow: var(--card-shadow);
+        text-align: center;
+        font-size: 0.95em;
+      }
+
+      .desktop-notice-panel .material-icons {
+        vertical-align: middle;
+        margin-right: 8px;
+        color: #ff9800;
+      }
+
+      .sidenav .user-view {
+        margin-bottom: 0;
+        padding-top: 16px;
+        padding-bottom: 16px;
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+      }
+
+      .sidenav .user-view .background {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -1;
+      }
+
+      .sidenav .user-view .circle {
+        width: 80px !important;
+        height: 80px !important;
+        margin-bottom: 10px;
+        border: 3px solid rgba(124, 124, 124, 0.9);
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+      }
+
+      .sidenav .user-view .name,
+      .sidenav .user-view .email {
+        font-weight: 500;
+        color: rgb(13, 13, 13);
+        line-height: 1.4;
+      }
+
+      .sidenav .user-view .name {
+        margin-top: 0;
+        font-size: 1.2em;
+      }
+
+      .sidenav .user-view .email {
+        font-size: 0.9em;
+        font-weight: 300;
+        margin-top: 4px;
+      }
+
+      .sidenav li > a > i.material-icons.profile-icon {
+        color: var(--primary-accent-dark);
+        margin: 0 24px 0 0;
+      }
+
+      .sidenav li > a {
+        font-size: 0.95em;
+        color: var(--text-color-dark);
+        font-weight: 400;
+      }
+
+      .sidenav .divider {
+        margin: 10px 0;
+      }
+
+      .profile-bio {
+        padding: 8px 32px 16px 32px;
+        font-size: 0.9em;
+        color: var(--text-color-medium);
+        line-height: 1.6;
+        text-align: center;
+      }
+
+      .sidenav .subheader {
+        color: var(--primary-accent-dark);
+        font-weight: 500;
+        font-size: 0.9em;
+        padding: 0 32px;
+      }
+
+      .fixed-action-btn.profile-fab {
+        bottom: 30px;
+        right: 30px;
+      }
+
+      .fixed-action-btn.profile-fab i {
+        font-size: 1.8rem;
+      }
+
+      .loader-overlay {
+        position: fixed; /* Cover the whole screen */
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(
+          255,
+          255,
+          255,
+          0.8
+        ); /* White with some transparency */
+        z-index: 9998; /* Below fullscreen image but above most content */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column; /* To stack loader and text */
+      }
+
+      .loader-overlay p {
+        margin-top: 15px;
+        font-size: 1.1em;
+        color: var(--primary-accent-dark);
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <div class="container">
+        <h1 class="app-title">☀️ Emotional Mapping AI 🗺️</h1>
+
+        <div class="row">
+          <div class="col s12">
+            <div class="card-panel desktop-notice-panel hide-on-med-and-up">
+              <i class="material-icons">screen_rotation</i>
+              <span
+                >For the best experience with the flowchart, please view on a
+                tablet or desktop screen.</span
+              >
+            </div>
+          </div>
+        </div>
+
+        {% if error %}
+        <div class="row">
+          <div class="col s12">
+            <div class="card-panel error-panel white-text flow-text">
+              <i class="material-icons left">warning</i>{{ error }}
+            </div>
+          </div>
+        </div>
+        {% endif %}
+
+        <div class="row">
+          <div class="col s12 m10 l8 offset-m1 offset-l2">
+            <div class="card section-card">
+              <div class="card-content">
+                <span class="card-title"
+                  ><i class="material-icons">edit_note</i>Describe Your
+                  Situation</span
+                >
+                <form method="post" action="/map-emotions">
+                  <div class="input-field">
+                    <textarea
+                      id="situation"
+                      name="situation"
+                      class="materialize-textarea"
+                      data-length="240"
+                      required
+                    >
+{{ previous_input.get('situation', '') }}</textarea
+                    >
+                    <label for="situation"
+                      >Your situation (max 240 chars)</label
+                    >
+                  </div>
+                  <div class="row">
+                    <div class="input-field col s12 m6">
+                      <input
+                        type="text"
+                        id="preferred_language"
+                        name="preferred_language"
+                        value="{{ previous_input.get('preferred_language', 'English') }}"
+                        required
+                      />
+                      <label for="preferred_language">Preferred Language</label>
+                    </div>
+                    <div class="input-field col s12 m6">
+                      <input
+                        type="number"
+                        id="age"
+                        name="age"
+                        value="{{ previous_input.get('age', '') }}"
+                        min="0"
+                      />
+                      <label for="age">Age</label>
+                    </div>
+                  </div>
+                  <div class="input-field">
+                    <input
+                      type="text"
+                      id="country"
+                      name="country"
+                      value="{{ previous_input.get('country', '') }}"
+                    />
+                    <label for="country">Country</label>
+                  </div>
+                  <button
+                    class="btn waves-effect waves-light btn-large"
+                    type="submit"
+                    name="action"
+                  >
+                    Map My Emotions
+                    <i class="material-icons right">psychology</i>
+                  </button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {% if flowchart_svg or core_emotions or final_message %}
+        <div class="row">
+          <div class="col s12">
+            <h4
+              class="center-align"
+              style="font-weight: 300; color: var(--primary-accent-dark)"
+            >
+              📊 Analysis Results
+            </h4>
+          </div>
+
+          {% if flowchart_svg %}
+          <div class="col s12 m10 offset-m1 l10 offset-l1">
+            <div class="card section-card map-card">
+              <div class="card-content">
+                <span class="card-title">
+                  <span><i class="material-icons">share</i>Emotional Map</span>
+                  <a
+                    href="#!"
+                    id="fullscreen-btn"
+                    data-position="left"
+                    data-tooltip="View Fullscreen"
+                    style="color: color black; background-color: white"
+                  >
+                    <i class="material-icons">fullscreen</i>
+                  </a>
+                </span>
+                <div class="svg-container" id="svg-container-for-fullscreen">
+                  <img
+                    id="flowchart-image"
+                    src="data:image/svg+xml;charset=utf-8,{{ flowchart_svg | urlencode }}"
+                    alt="Emotional Flowchart"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+          {% endif %}
+
+          <div class="col s12">
+            {% if core_emotions %}
+            <div class="card section-card">
+              <div class="card-content">
+                <span class="card-title"
+                  ><i class="material-icons">favorite_border</i>Core
+                  Emotions</span
+                >
+                <ul class="collection">
+                  {% for emotion in core_emotions %}
+                  <li class="collection-item">❤️ {{ emotion }}</li>
+                  {% endfor %}
+                </ul>
+              </div>
+            </div>
+            {% endif %} {% if emotional_transitions %}
+            <div class="card section-card">
+              <div class="card-content">
+                <span class="card-title"
+                  ><i class="material-icons">trending_flat</i>Emotional
+                  Transitions</span
+                >
+                <ul class="collection">
+                  {% for transition in emotional_transitions %}
+                  <li class="collection-item">➡️ {{ transition }}</li>
+                  {% endfor %}
+                </ul>
+              </div>
+            </div>
+            {% endif %}
+          </div>
+        </div>
+
+        <div class="row">
+          {% if trigger_analysis %}
+          <div class="col s12 m6">
+            <div class="card section-card">
+              <div class="card-content">
+                <span class="card-title"
+                  ><i class="material-icons">flare</i>Trigger Analysis</span
+                >
+                <p>{{ trigger_analysis }}</p>
+              </div>
+            </div>
+          </div>
+          {% endif %} {% if psychological_interpretation %}
+          <div class="col s12 m6">
+            <div class="card section-card">
+              <div class="card-content">
+                <span class="card-title"
+                  ><i class="material-icons">psychology_alt</i>Psychological
+                  Interpretation</span
+                >
+                <p>{{ psychological_interpretation }}</p>
+              </div>
+            </div>
+          </div>
+          {% endif %}
+        </div>
+
+        {% if healing_suggestions %}
+        <div class="row">
+          <div class="col s12">
+            <div class="card section-card">
+              <div class="card-content">
+                <span class="card-title"
+                  ><i class="material-icons">spa</i>Healing Suggestions</span
+                >
+                <ul class="collection">
+                  {% for item in healing_suggestions %}
+                  <li class="collection-item">
+                    {% if item is mapping and item.get('suggestion') %} 🌱
+                    <strong>{{ item.get('suggestion') }}</strong> {% if
+                    item.get('justification') %}
+                    <p style="margin-top: 5px; color: var(--text-color-medium)">
+                      <em>{{ item.get('justification') }}</em>
+                    </p>
+                    {% endif %} {% elif item is string %} 🌱 {{ item }} {% else
+                    %} 🌱 {{ item | string }} {% endif %}
+                  </li>
+                  {% endfor %}
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+        {% endif %} {% if final_message %}
+        <div class="row">
+          <div class="col s12">
+            <div class="card-panel final-message-panel section-card">
+              <i class="material-icons left">sentiment_very_satisfied</i>
+              <span style="font-size: 1.1em">{{ final_message }}</span>
+            </div>
+          </div>
+        </div>
+        {% endif %} {% endif %}
+
+        <!-- {% if raw_output %}
+            <div class="row"> 
+                <div class="col s12">
+                    <ul class="collapsible z-depth-0" style="border: 1px solid var(--border-color-light); border-radius: 6px;"> 
+                        <li>
+                            <div class="collapsible-header"><i class="material-icons">code</i>Raw AI Output (for debugging)</div>
+                            <div class="collapsible-body" style="padding:0;">
+                                <pre class="pre-raw-output" style="margin:0; border-radius: 0 0 6px 6px;">{{ raw_output }}</pre>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            {% endif %} -->
+      </div>
+    </main>
+
+    <div id="loader-overlay" class="loader-overlay" style="display: none">
+      <!-- Initially hidden -->
+      <div class="preloader-wrapper big active">
+        <div class="spinner-layer spinner-blue-only">
+          <!-- Or spinner-blue, spinner-red, spinner-green, spinner-yellow -->
+          <div class="circle-clipper left">
+            <div class="circle"></div>
+          </div>
+          <div class="gap-patch">
+            <div class="circle"></div>
+          </div>
+          <div class="circle-clipper right">
+            <div class="circle"></div>
+          </div>
+        </div>
+      </div>
+      <p>Analyzing your emotions... Please wait.</p>
+    </div>
+
+    <div class="fixed-action-btn profile-fab">
+      <a
+        id="profile-sidenav-trigger"
+        href="#"
+        data-target="profile-sidenav"
+        class="sidenav-trigger btn-floating btn-large waves-effect waves-light tooltipped"
+        style="background-color: var(--primary-accent-color)"
+        data-position="left"
+        data-tooltip="View My Profile"
+      >
+        <i class="material-icons">person_outline</i>
+      </a>
+    </div>
+
+    <ul id="profile-sidenav" class="sidenav">
+      <li>
+        <div class="user-view">
+          <div class="background"></div>
+          <a href="#!user"
+            ><img
+              class="circle"
+              src="https://i.ibb.co/kVtX24Yz/profile.jpg"
+              alt="Your Photo"
+          /></a>
+          <a href="#!name"><span class="name">Pourush Siddharth</span></a>
+          <a href="#!email"><span class="email">Python Developer</span></a>
+        </div>
+      </li>
+      <li>
+        <div class="profile-bio">
+          <i>Am not perfect, but I am learning...</i>
+        </div>
+      </li>
+      <li><div class="divider"></div></li>
+      <li><a class="subheader">Connect & Contact</a></li>
+      <li>
+        <a
+          class="waves-effect"
+          href="https://www.linkedin.com/in/pourushsiddharth"
+          target="_blank"
+        >
+          <i class="material-icons profile-icon">launch</i> LinkedIn
+        </a>
+      </li>
+      <li>
+        <a
+          class="waves-effect"
+          href="https://github.com/pourushsiddharth"
+          target="_blank"
+        >
+          <i class="material-icons profile-icon">code</i> GitHub
+        </a>
+      </li>
+      <!-- <li>
+            <a class="waves-effect" href="https://example.com" target="_blank">
+                <i class="material-icons profile-icon">language</i> Portfolio
+            </a>
+        </li> -->
+      <li><div class="divider"></div></li>
+      <li>
+        <a
+          class="waves-effect"
+          href="mailto:pourushsiddharth@gmail.com"
+          target="_blank"
+        >
+          <i class="material-icons profile-icon">email</i> Email Me
+        </a>
+      </li>
+    </ul>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        // Initialize Materialize Components
+        var textareas = document.querySelectorAll(".materialize-textarea");
+        M.CharacterCounter.init(textareas);
+
+        var collapsibles = document.querySelectorAll(".collapsible");
+        M.Collapsible.init(collapsibles);
+
+        var sidenavElems = document.querySelectorAll(".sidenav");
+        var sidenavInstances = M.Sidenav.init(sidenavElems, {
+          edge: "left",
+        });
+
+        var tooltipElems = document.querySelectorAll(".tooltipped");
+        M.Tooltip.init(tooltipElems); // Initialize all tooltips
+
+        // --- LOADER FUNCTIONALITY ---
+        const analysisForm = document.querySelector(
+          'form[action="/map-emotions"]'
+        );
+        const loaderOverlay = document.getElementById("loader-overlay");
+        const submitButton = analysisForm
+          ? analysisForm.querySelector('button[type="submit"]')
+          : null;
+
+        if (analysisForm && loaderOverlay && submitButton) {
+          analysisForm.addEventListener("submit", function () {
+            loaderOverlay.style.display = "flex";
+            submitButton.disabled = true;
+            // Extract only the text content before the <i> tag
+            const buttonTextNode = Array.from(submitButton.childNodes).find(
+              (node) => node.nodeType === Node.TEXT_NODE
+            );
+            const originalButtonText = buttonTextNode
+              ? buttonTextNode.nodeValue.trim()
+              : "Map My Emotions";
+            submitButton.innerHTML = `Analyzing... <i class="material-icons right">hourglass_empty</i>`;
+            // Store original text if you want to restore it without page reload (for AJAX)
+            // submitButton.setAttribute('data-original-text', originalButtonText);
+          });
+        }
+        // Loader is hidden by default on page load due to inline style in HTML.
+        // --- END LOADER FUNCTIONALITY ---
+
+        // --- FULLSCREEN FUNCTIONALITY ---
+        const fullscreenButton = document.getElementById("fullscreen-btn");
+        const flowchartImage = document.getElementById("flowchart-image");
+
+        if (fullscreenButton && flowchartImage) {
+          // Tooltip for fullscreen button is already initialized by the general M.Tooltip.init(tooltipElems) call
+          // var fullscreenButtonTooltipInstance = M.Tooltip.getInstance(fullscreenButton); // Not strictly needed to store here
+
+          fullscreenButton.addEventListener("click", function (event) {
+            event.preventDefault();
+            const elem = flowchartImage;
+
+            if (
+              !document.fullscreenElement &&
+              !document.mozFullScreenElement &&
+              !document.webkitFullscreenElement &&
+              !document.msFullscreenElement
+            ) {
+              if (elem.requestFullscreen) {
+                elem.requestFullscreen();
+              } else if (elem.mozRequestFullScreen) {
+                elem.mozRequestFullScreen();
+              } else if (elem.webkitRequestFullscreen) {
+                elem.webkitRequestFullscreen();
+              } else if (elem.msRequestFullscreen) {
+                elem.msRequestFullscreen();
+              }
+            } else {
+              if (document.exitFullscreen) {
+                document.exitFullscreen();
+              } else if (document.mozCancelFullScreen) {
+                document.mozCancelFullScreen();
+              } else if (document.webkitExitFullscreen) {
+                document.webkitExitFullscreen();
+              } else if (document.msExitFullscreen) {
+                document.msExitFullscreen();
+              }
+            }
+          });
+
+          function updateFullscreenButtonState() {
+            var currentTooltipInstance =
+              M.Tooltip.getInstance(fullscreenButton);
+            // Check if instance exists, if not and element is tooltipped, re-initialize (though rare if init is broad)
+            if (
+              !currentTooltipInstance &&
+              fullscreenButton.classList.contains("tooltipped")
+            ) {
+              currentTooltipInstance = M.Tooltip.init(fullscreenButton);
+            }
+
+            if (
+              !document.fullscreenElement &&
+              !document.webkitIsFullScreen &&
+              !document.mozFullScreen &&
+              !document.msFullscreenElement
+            ) {
+              // If exiting fullscreen AND the button currently shows "exit" icon
+              if (
+                fullscreenButton.querySelector("i").textContent ===
+                "fullscreen_exit"
+              ) {
+                fullscreenButton.querySelector("i").textContent = "fullscreen";
+                if (currentTooltipInstance) currentTooltipInstance.destroy(); // Destroy before re-init for text change
+                fullscreenButton.setAttribute(
+                  "data-tooltip",
+                  "View Fullscreen"
+                );
+                M.Tooltip.init(fullscreenButton); // Re-init to update tooltip text
+              }
+            } else {
+              // If entering fullscreen AND the button currently shows "view" icon
+              if (
+                fullscreenButton.querySelector("i").textContent === "fullscreen"
+              ) {
+                fullscreenButton.querySelector("i").textContent =
+                  "fullscreen_exit";
+                if (currentTooltipInstance) currentTooltipInstance.destroy();
+                fullscreenButton.setAttribute(
+                  "data-tooltip",
+                  "Exit Fullscreen"
+                );
+                M.Tooltip.init(fullscreenButton);
+              }
+            }
+          }
+          document.addEventListener(
+            "fullscreenchange",
+            updateFullscreenButtonState
+          );
+          document.addEventListener(
+            "webkitfullscreenchange",
+            updateFullscreenButtonState
+          );
+          document.addEventListener(
+            "mozfullscreenchange",
+            updateFullscreenButtonState
+          );
+          document.addEventListener(
+            "MSFullscreenChange",
+            updateFullscreenButtonState
+          );
+        }
+        // --- END FULLSCREEN FUNCTIONALITY ---
+
+        // --- CHARACTER LIMIT RED BORDER ---
+        const situationTextarea = document.getElementById("situation");
+        if (situationTextarea) {
+          const maxLength = parseInt(
+            situationTextarea.getAttribute("data-length"),
+            10
+          );
+
+          function checkCharLimit() {
+            const currentLength = situationTextarea.value.length;
+            const charCounterElement =
+              situationTextarea.parentNode.querySelector(".character-counter");
+
+            if (currentLength > maxLength) {
+              situationTextarea.classList.add("char-limit-exceeded");
+              if (charCounterElement) {
+                charCounterElement.classList.add("limit-exceeded-text");
+              }
+            } else {
+              situationTextarea.classList.remove("char-limit-exceeded");
+              if (charCounterElement) {
+                charCounterElement.classList.remove("limit-exceeded-text");
+              }
+            }
+          }
+          situationTextarea.addEventListener("input", checkCharLimit);
+          checkCharLimit(); // Initial check
+        }
+        // --- END CHARACTER LIMIT RED BORDER ---
+
+        // --- MATERIALIZE INPUT LABEL ACTIVATION ---
+        var inputs = document.querySelectorAll(
+          'input[type="text"], input[type="number"], .materialize-textarea'
+        );
+        inputs.forEach(function (input) {
+          // Activate label if input has a value, is focused, or has a placeholder
+          if (input.value || input.matches(":focus") || input.placeholder) {
+            if (
+              input.nextElementSibling &&
+              input.nextElementSibling.tagName === "LABEL"
+            ) {
+              input.nextElementSibling.classList.add("active");
+            }
+          }
+          // Special handling for textarea label if it has content and is not focused (on initial load)
+          if (
+            input.tagName === "TEXTAREA" &&
+            input.value &&
+            !input.matches(":focus")
+          ) {
+            if (
+              input.nextElementSibling &&
+              input.nextElementSibling.tagName === "LABEL"
+            ) {
+              input.nextElementSibling.classList.add("active");
+            }
+          }
+        });
+        // Add focus and blur listeners for dynamic label activation
+        inputs.forEach(function (input) {
+          input.addEventListener("focus", function () {
+            if (
+              this.nextElementSibling &&
+              this.nextElementSibling.tagName === "LABEL"
+            ) {
+              this.nextElementSibling.classList.add("active");
+            }
+          });
+          input.addEventListener("blur", function () {
+            // Only remove 'active' if the input is empty, has no placeholder, and is not focused
+            if (!this.value && !this.placeholder && !this.matches(":focus")) {
+              if (
+                this.nextElementSibling &&
+                this.nextElementSibling.tagName === "LABEL"
+              ) {
+                this.nextElementSibling.classList.remove("active");
+              }
+            }
+          });
+        });
+        // --- END MATERIALIZE INPUT LABEL ACTIVATION ---
+      });
+    </script>
+  </body>
+</html>
